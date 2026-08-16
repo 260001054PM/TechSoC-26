@@ -14,6 +14,7 @@ if sum(weights) >= 200:
 else:
   print("Light")
 print("Port Capacity: ", C)
+print("Status: ", end = "")
 if sum(weights) <= C:
   print("Shipment can be unloaded")
 else:
