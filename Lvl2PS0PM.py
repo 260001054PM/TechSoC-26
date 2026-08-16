@@ -1,17 +1,23 @@
 Morship = "Y"
-def sorting(list):
-  print("Sorted Way Of Weights: ")
+def sorting(list1):
+  print("\nSorted Way Of Weights: ")
   max = 0 #Since weight entered is positive
   sortedlist = []
-  while list:
-    for i in list:
+  while list1:
+    for i in list1:
       if i > max:
         max = i
-    list.remove(max)
+    list1.remove(max)
     sortedlist.append(max)
     max = 0
   for j in range(len(sortedlist)-1, -1, -1):
     print(sortedlist[j], end = " ")
+  global weights
+  weights = sortedlist
+def kth(list1):
+  print("\n\nThe kth container")
+  k = int(input("Enter k: "))
+  print(list1[k-1])
 while Morship != "N":
   C = float(input("Enter Maximum Storage Capacity: "))
   N = int(input("Enter the Number of Containers: "))
@@ -35,5 +41,6 @@ while Morship != "N":
   else:
     print("Shipment exceeds port capacity")
   sorting(weights)
+  kth(weights)
   Morship = input("Do you want to process more ships? (Y/N): ")
 print("Thank You")
