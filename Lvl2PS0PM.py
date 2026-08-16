@@ -18,6 +18,10 @@ def kth(list1):
   print("\n\nThe kth container")
   k = int(input("Enter k: "))
   print(list1[k-1])
+def searchbyw(list1):
+  print("\n\nSearch By Weight: ")
+  weigh = int(input("Enter Weight to Search: "))
+  print("The container with the given weight is container", list1.index(weigh)+1)
 while Morship != "N":
   C = float(input("Enter Maximum Storage Capacity: "))
   N = int(input("Enter the Number of Containers: "))
@@ -25,6 +29,7 @@ while Morship != "N":
   for i in range(N):
     wi = int(input("Enter Weight: "))
     weights.append(wi)
+  wbackup = weights.copy()
   print("Total shipment weight: ", sum(weights))
   print("Average container weight: ", round(sum(weights)/len(weights), 2))
   print("Heaviest container: ", max(weights))
@@ -42,5 +47,6 @@ while Morship != "N":
     print("Shipment exceeds port capacity")
   sorting(weights)
   kth(weights)
+  searchbyw(wbackup)
   Morship = input("Do you want to process more ships? (Y/N): ")
 print("Thank You")
