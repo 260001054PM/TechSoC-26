@@ -1,0 +1,43 @@
+import copy
+R, C = map(int, input().split())
+G = int(input())
+grid = []
+temp = []
+for g in range(C+2):
+  temp.append(".")
+grid.append(temp)
+inpopu = 0
+finpopu = 0
+for i in range(R):
+  a = ["."] + list(input().split()) + ["."]
+  inpopu += a.count("#")
+  grid.append(a)
+grid.append(temp)
+print("Initial Population: ", inpopu)
+peak = inpopu
+temppeak = 0
+for jk in range(G):
+  grid2 = copy.deepcopy(grid)
+  for i in range(1, len(grid)-1):
+    for j in range(1, len(grid[i])-1):
+      deadlist = [grid[i+1][j-1], grid[i-1][j], grid[i][j+1], grid[i][j-1], grid[i-1][j-1], grid[i-1][j+1], grid[i+1][j], grid[i+1][j+1]]
+      living = deadlist.count("#")
+      if living < 2 or living > 3:
+        grid2[i][j] = "."
+      elif grid[i][j] == "." and living == 3:
+        grid2[i][j] = "#"
+  grid = grid2
+  for h in grid:
+    temppeak += h.count("#")
+  if temppeak > peak:
+    peak = temppeak
+  temppeak = 0
+for pt in grid:
+  finpopu += pt.count("#")
+print("Final Population: ", finpopu)
+print("Peak Population: ", peak)
+print("Final Grid: ")
+for tp in range(1, len(grid)-1):
+  for pt in range(1, len(grid[tp])-1):
+    print(grid[tp][pt], end = " ")
+  print()
