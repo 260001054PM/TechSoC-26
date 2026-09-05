@@ -1,0 +1,67 @@
+mode = input().strip()
+R, C = map(int, input().split())
+G = 10 if mode == "classify" else int(input())
+
+grid = [input().split() for _ in range(R)]
+
+inpopu = sum(row.count("#") for row in grid)
+peak = inpopu
+history = [tuple(tuple(row) for row in grid)]
+classified = False
+
+for step in range(1, G + 1):
+    next_grid = [["." for _ in range(C)] for _ in range(R)]
+
+    for r in range(R):
+        for c in range(C):
+            neighbors = [grid[(r - 1)][(c - 1)], grid[(r - 1)][c], grid[(r - 1)][(c + 1) % C], grid[r][(c - 1)], grid[r][(c + 1) % C], grid[(r + 1) % R][(c - 1)],grid[(r + 1) % R][c], grid[(r + 1) % R][(c + 1) % C]]
+            living = neighbors.count("#")
+            if grid[r][c] == "#" and living in (2, 3):
+                next_grid[r][c] = "#"
+            elif grid[r][c] == "." and living == 3:
+                next_grid[r][c] = "#"
+
+    grid = next_grid
+    popu = sum(row.count("#") for row in grid)
+    peak = max(peak, popu)
+    curr = tuple(tuple(row) for row in grid)
+    if popu == 0:
+      print("Classification: Extinct")
+      print(f"Extinction Step: {len(history)}")
+      classified = True
+      break
+    else:
+      if curr in history:
+          first = history.index(curr)
+          period = step - first
+
+          if period == 1:
+              print("Classification: Still Life")
+              print(f"Stable at step: {first}")
+              print("Period: 1")
+          else:
+              print("Classification: Oscillator")
+              print(f"Period: {period}")
+              print(f"First Repeat: {step}")
+
+          classified = True
+          break
+
+    history.append(curr)
+
+fpopu = sum(row.count("#") for row in grid)
+print(f"Final Population: {fpopu}")
+
+if not classified:
+  if mode == "toroidal":
+    print("Mode: Toroidal")
+    print(f"Inital Population: {inpopu}")
+  else:
+    print("Classification: Active")
+
+if mode == "active" or mode == "toroidal":
+    print("Final Grid:")
+    for row in grid:
+        for pt in row:
+          print(pt, end = " ")
+        print()
